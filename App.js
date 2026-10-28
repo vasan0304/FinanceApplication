@@ -1,20 +1,31 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { AppProvider, useApp } from './src/context/AppContext';
+import { RootNavigator } from './src/navigation/RootNavigator';
+import { CustomAlertModal } from './src/components/CustomAlertModal';
+
+const AppContent = () => {
+  const { isDarkMode } = useApp();
+
+  return (
+    <>
+      <StatusBar style={isDarkMode ? 'light' : 'dark'} />
+      <NavigationContainer>
+        <RootNavigator />
+        <CustomAlertModal />
+      </NavigationContainer>
+    </>
+  );
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <AppProvider>
+        <AppContent />
+      </AppProvider>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
